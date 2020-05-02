@@ -1,6 +1,4 @@
 import React, { useState, useRef } from 'react';
-import { RNCamera } from 'react-native-camera';
-import Icon from 'react-native-vector-icons/MaterialIcons';
 import {
   StyleSheet,
   View,
@@ -8,61 +6,65 @@ import {
   TouchableOpacity,
   Image,
   Modal,
-  CameraRoll,
   PermissionsAndroid
 } from 'react-native';
+import { RNCamera } from 'react-native-camera';
+import CameraRoll from "@react-native-community/cameraroll";
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 function App() {
 
-  const [ image, setImage ] = useState(null);
-  const [ type, setType ] = useState(RNCamera.Constants.Type.back);
-  const [ flashMode, setFlashMode ] = useState([RNCamera.Constants.FlashMode.off,'flash-off']);
-  
+  const [image, setImage] = useState(null);
+  const [type, setType] = useState(RNCamera.Constants.Type.back);
+  const [flash, setFlash] = useState({
+    flashMode: RNCamera.Constants.FlashMode.off,
+    flashIcon: 'flash-off'
+  });
+
   const cameraRef = useRef(null);
 
-  function handleType(){
-    if(type === RNCamera.Constants.Type.back){
+  function handleType() {
+    if (type === RNCamera.Constants.Type.back) {
       setType(RNCamera.Constants.Type.front);
     }
-    else if(type === RNCamera.Constants.Type.front){
+    else if (type === RNCamera.Constants.Type.front) {
       setType(RNCamera.Constants.Type.back);
     }
   }
-  
-  function handleFlashMode(){
-    if(flashMode[0] === RNCamera.Constants.FlashMode.off){
-      setFlashMode([RNCamera.Constants.FlashMode.on, 'flash-on']);
+
+  function handleFlashMode() {
+    if (flash.flashMode === RNCamera.Constants.FlashMode.off) {
+      setFlash({ flashMode: RNCamera.Constants.FlashMode.on, flashIcon: 'flash-on' });
     }
-    else if(flashMode[0] === RNCamera.Constants.FlashMode.on){
-      setFlashMode([RNCamera.Constants.FlashMode.off, 'flash-off']);
+    else if (flash.flashMode === RNCamera.Constants.FlashMode.on) {
+      setFlash({ flashMode: RNCamera.Constants.FlashMode.off, flashIcon: 'flash-off' });
     }
   }
 
-  async function submitPicture(){
+  async function savePicture() {
     try {
       const granted = await PermissionsAndroid.request(
-        PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
         {
           "title": "Permission to use Storage",
           "message": "We need your permission to use your Storage for the pictures"
         }
       )
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        await CameraRoll.saveToCameraRoll(image);
+        await CameraRoll.save(image, { type: 'photo', album: 'reactNativeCamera' });
       } else {
         console.log("Permissao de camera negada.");
       }
     } catch (err) {
       console.warn(err);
     }
-
     setImage(null);
   }
 
-  async function takePicture(){
+  async function takePicture() {
     if (cameraRef) {
-      const options = { 
-        quality: 0.5, 
+      const options = {
+        quality: 0.5,
         base64: true,
       };
       const { uri } = await cameraRef.current.takePictureAsync(options);
@@ -70,7 +72,7 @@ function App() {
     }
   };
 
-  function handleClear(){
+  function handleClear() {
     setImage(null);
   }
 
@@ -79,9 +81,9 @@ function App() {
       <StatusBar backgroundColor='#000' barStyle='light-content' />
       <View style={styles.container}>
         {
-          image ? 
+          image ?
             <Modal
-              animationType='fade'
+              animationType='none'
             >
               <View style={styles.previw}>
                 <Image source={{ uri: image }} style={styles.image} />
@@ -89,37 +91,38 @@ function App() {
                   <TouchableOpacity onPress={handleClear} style={styles.touchable}>
                     <Icon name="clear" size={60} color="#fff" />
                   </TouchableOpacity>
-                  <TouchableOpacity onPress={submitPicture} style={styles.touchable}>
+                  <TouchableOpacity onPress={savePicture} style={styles.touchable}>
                     <Icon name="done" size={60} color="#fff" />
                   </TouchableOpacity>
                 </View>
               </View>
             </Modal>
-          :
-          <RNCamera
-            ref={cameraRef}
-            style={styles.camera}
-            type={type}
-            flashMode={flashMode[0]}
-            autoFocus={RNCamera.Constants.AutoFocus.on}
-            androidCameraPermissionOptions={{
-              title: 'Permission to use camera',
-              message: 'We need your permission to use your camera',
-            }}
-          />
+            :
+            <RNCamera
+              ref={cameraRef}
+              style={styles.camera}
+              type={type}
+              flashMode={flash.flashMode}
+              autoFocus={RNCamera.Constants.AutoFocus.on}
+              androidCameraPermissionOptions={{
+                title: 'Permission to use camera',
+                message: 'We need your permission to use your camera',
+              }}
+            />
         }
         <View style={styles.containerCapture}>
           <TouchableOpacity onPress={handleType}>
-            <Icon name="autorenew" size={35} color="#fff" style={styles.touchable}/>
+            <Icon name="autorenew" size={35} color="#fff" style={styles.touchable} />
           </TouchableOpacity>
           <TouchableOpacity onPress={takePicture} style={styles.capture} />
           <TouchableOpacity onPress={handleFlashMode}>
-            <Icon name={flashMode[1]} size={35} color="#fff" style={styles.touchable}/>
+            <Icon name={flash.flashIcon} size={35} color="#fff" style={styles.touchable} />
           </TouchableOpacity>
         </View>
       </View>
     </View>
   );
+  
 };
 
 const styles = StyleSheet.create({
@@ -130,26 +133,26 @@ const styles = StyleSheet.create({
   camera: {
     flex: 1
   },
-  previw:{
+  previw: {
     flex: 1,
     justifyContent: 'center',
   },
-  image:{
+  image: {
     flex: 1
   },
-  touchable:{
+  touchable: {
     padding: 10
   },
-  containerModal:{
-    backgroundColor:'#000',
+  containerModal: {
+    backgroundColor: '#000',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingVertical: 50,
     paddingHorizontal: 60
   },
-  containerCapture:{
-    backgroundColor:'#000',
+  containerCapture: {
+    backgroundColor: '#000',
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
@@ -159,7 +162,7 @@ const styles = StyleSheet.create({
   capture: {
     width: 80,
     height: 80,
-    borderRadius:40,
+    borderRadius: 40,
     backgroundColor: '#fff',
   },
 });
