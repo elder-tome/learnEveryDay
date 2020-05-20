@@ -10,7 +10,10 @@ const stack = createStackNavigator();
 function Routes(){
   return(
     <NavigationContainer>
-      <stack.Navigator screenOptions={{headerShown: false}}>
+      <stack.Navigator screenOptions={{
+        headerShown: false,
+        gestureDirection: 'vertical-inverted'
+      }}>
         <stack.Screen name='login' component={login}/>
         <stack.Screen name='createLogin' component={createLogin}/>
       </stack.Navigator>
