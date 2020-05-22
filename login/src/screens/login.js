@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, Image, View, StatusBar, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, Image, View, TextInput, TouchableOpacity } from 'react-native';
 
-import vector from '../assets/vector.png'
+import vector from '../assets/vector.png';
 
 function login() {
 
@@ -10,15 +10,14 @@ function login() {
 
   return (
     <View style={styles.container}>
-      <StatusBar barStyle='light-content' backgroundColor='#595757' />
       <Image style={ styles.imageHeader } source={ vector } />
-      <Text style={styles.welcome}>Welcome</Text>
+      <Text style={styles.title}>Welcome</Text>
       <View style={styles.containerLogin}>
         <TextInput
           style={styles.input}
           placeholder='E-mail'
           placeholderTextColor='#999'
-          autoCapitalize='words'
+          autoCapitalize='none'
           autoCorrect={false}
           keyboardType='email-address'
           textContentType='emailAddress'
@@ -27,7 +26,7 @@ function login() {
           style={styles.input}
           placeholder='Password'
           placeholderTextColor='#999'
-          autoCapitalize='words'
+          autoCapitalize='none'
           autoCorrect={false}
           secureTextEntry={true}
           textContentType='password'
@@ -56,15 +55,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9E9E9',
     alignItems: 'flex-start',
     justifyContent: 'flex-start',
-    paddingHorizontal: 40
+    padding: 40
   },
   imageHeader:{
     position: 'absolute',
-    left: 0,
     top: 0,
+    left: 0,
+    right: 0
   },
-  welcome: {
-    marginTop: 90,
+  title: {
+    marginTop: 50,
     marginBottom: 80,
     fontSize: 33,
     color: '#fff'
@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,
-    marginBottom: 65
+    marginBottom: 57
   },
   textButton: {
     fontSize: 20,
