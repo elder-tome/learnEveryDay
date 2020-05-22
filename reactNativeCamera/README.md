@@ -2,7 +2,7 @@
 
 Projeto básico utilizando react-native-camera.
 
-![](./screenshot.png)
+![](../img/screenshotReactNativeCamera.png)
 
 <!-- ## Instalação
 

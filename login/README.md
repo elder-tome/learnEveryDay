@@ -2,7 +2,7 @@
 
 Projeto básico de um login com expo utilizando JWT ( JSON Web Token ) para a autenticação e react-native-svg para a criação de elementos SVG na interface.
 
-![](./screenshot.png)
+![](../img/screenshotLogin.png)
 
 <!-- ## Instalação
 
