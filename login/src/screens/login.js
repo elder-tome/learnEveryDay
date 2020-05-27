@@ -1,8 +1,7 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
-import { StyleSheet, Text, Image, View, TextInput, TouchableOpacity } from 'react-native';
-
-import vector from '../assets/vector.png';
+import Svg, { Path } from 'react-native-svg';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 
 function login() {
 
@@ -10,7 +9,11 @@ function login() {
 
   return (
     <View style={styles.container}>
-      <Image style={ styles.imageHeader } source={ vector } />
+      <Svg width="414" height="293" viewBox="0 0 414 293" style={ styles.svg }>
+        <Path d="M415 293C398.982 231.469 260.823 212.588 222.715 162.772C184.608 112.955 265.516 74.1014 265.516 74.1014C265.516 74.1014 312.342 44.1529 330.701 36.5195C349.059 28.8862 387.064 18.0924 415 23.4268V293Z" fill="#72B5A4"/>
+        <Path d="M0 0H415V21.7225C415 21.7225 410.063 32.7542 333.279 46.528C256.494 60.3018 265 114.635 214.5 149.634C164 184.633 55.5 167.387 0 135.938V0Z" fill="#595757"/>
+        <Path d="M0 3.39095e-06H232.862C232.862 3.39095e-06 250.786 -0.499993 251.5 4.5C252.214 9.5 247 16.5 193 14.5C139 12.5 46.5 14.5 68.5 38.5C90.5 62.5 47.7666 81.5077 0 76.6278V3.39095e-06Z" fill="#F2CEAB"/>
+      </Svg>
       <Text style={styles.title}>Welcome</Text>
       <View style={styles.containerLogin}>
         <TextInput
@@ -57,7 +60,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 40
   },
-  imageHeader:{
+  svg:{
     position: 'absolute',
     top: 0,
     left: 0,
@@ -65,7 +68,7 @@ const styles = StyleSheet.create({
   },
   title: {
     marginTop: 50,
-    marginBottom: 80,
+    marginBottom: 85,
     fontSize: 33,
     color: '#fff'
   },
@@ -90,7 +93,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 25,
-    marginBottom: 57
+    marginBottom: 47
   },
   textButton: {
     fontSize: 20,

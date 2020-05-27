@@ -1,8 +1,8 @@
 import React from 'react';
 import { useNavigation } from '@react-navigation/native';
+import Svg, { Path } from 'react-native-svg';
 import { View, Text, Image, StyleSheet, TextInput, TouchableOpacity } from 'react-native';
 
-import image from '../assets/image.png';
 import arraw from '../assets/arraw.png';
 
 function createLogin() {
@@ -11,7 +11,10 @@ function createLogin() {
 
   return (
     <View style={ styles.constaine } >
-      <Image style={ styles.image } source={image}/>
+      <Svg width="414" height="860" viewBox="0 0 414 860" style={ styles.svg }>
+        <Path d="M0 455.957L0 860H37C29 491.5 414 655.5 414 378.5V127L181 253L0 378.5L0 455.957Z" fill="#72B5A4"/>
+        <Path d="M0 0H414V150.915C414 150.915 405 229 253.5 255.963C102 282.926 13.5 370.5 0 413V288.143V0Z" fill="#595757"/>
+      </Svg>
       <TouchableOpacity onPress={() => navigation.goBack()}>
         <Image source={arraw}/>
       </TouchableOpacity>
@@ -59,7 +62,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
     padding: 40
   },
-  image:{
+  svg:{
     position: 'absolute',
     top: 0,
     bottom: 0,
